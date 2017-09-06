@@ -12,20 +12,35 @@ within ;
 package initializationTests
   model homotopy5
     Real x (start=-0.5);
-    // Real y (start=-0.5);
+    Real y (start=-0.5);
     parameter Real pi = 3.1415;
   equation
     0 = homotopy(2*x - 4 + sin(2*pi*x), x+0.5);
-    // 0 = homotopy(2*y - 4 + sin(2*pi*y), 2*y - 4 + sin(2*pi*y) - (2*(-0.5) - 4 + sin(2*pi*(-0.5))));
+    0 = homotopy(2*y - 4 + sin(2*pi*y), 2*y - 4 + sin(2*pi*y) - (2*(-0.5) - 4 + sin(2*pi*(-0.5))));
   end homotopy5;
 end initializationTests;
 "); getErrorString();
+
+// double homAdaptBend = 0.05;
+// double homHEps = 1e-3;
+// int homMaxLambdaSteps = 0;
+// int homMaxNewtonSteps = 20;
+// int homMaxTries = 10;
+// double homTauDecFac = 10.0;
+// double homTauDecFacPredictor = 2.0;
+// double homTauIncFac = 2.0;
+// double homTauIncThreshold = 10.0;
+// double homTauMax = 10.0;
+// double homTauMin = 1e-4;
+// double homTauStart = 0.2;
+sflags:="-homotopyOnFirstTry -homAdaptBend=0.5 -homHEps=1e-3 -homMaxLambdaSteps=0 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
 
 // setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--homotopyApproach=global --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents"); getErrorString();
-simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
+// simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
+simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0, simflags=sflags); getErrorString();
 // simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0); getErrorString();
 res := OpenModelica.Scripting.readSimulationResult("initializationTests.homotopy5_res.mat", {time, x}, 2); getErrorString();
 

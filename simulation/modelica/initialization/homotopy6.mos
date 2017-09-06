@@ -1,8 +1,8 @@
-// name: homotopy4
+// name: homotopy6
 // keywords: initialization, homotopy
 // status: correct
 // cflags:
-// teardown_command: rm -rf initializationTests.homotopy4* _initializationTests.homotopy4* output.log
+// teardown_command: rm -rf initializationTests.homotopy6* _initializationTests.homotopy6* output.log
 //
 //  case for homotopy
 //
@@ -10,7 +10,7 @@
 loadString("
 within ;
 package initializationTests
-  model homotopy4
+  model homotopy6
     Real x,y,z,x1,y1,z1,x2,y2,z2,x3,y3,z3,a,b,c,d,e,f;
     parameter Real p1 = 10;
     
@@ -33,7 +33,7 @@ package initializationTests
     d = x1 + y1 + z1;
     
     homotopy(x2^2, x2) + 5 = z2 + 5;
-    homotopy(y2^2, -d) + 10 = z2 + p1;
+    homotopy(y2^2, y2) + 10 = z2 + p1 - d;
     x2 + y2 + 9 = z2;
     
     e = sin(d*x2);
@@ -44,7 +44,7 @@ package initializationTests
     // ********** End of homotopy iteration loop
     
     f = x + y + z + a + b + c + d + e + x1 + y1 + z1 + x2 + y2 + z2 + x3 + y3 + z3;
-  end homotopy4;
+  end homotopy6;
 end initializationTests;
 "); getErrorString();
 
@@ -60,16 +60,16 @@ end initializationTests;
 // double homTauMax = 10.0;
 // double homTauMin = 1e-4;
 // double homTauStart = 0.2;
-sflags:="-homotopyOnFirstTry -homAdaptBend=0.05 -homHEps=1e-3 -homMaxLambdaSteps=0 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
+sflags:="-homotopyOnFirstTry -homAdaptBend=0.05 -homHEps=1e-3 -homMaxLambdaSteps=100000 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
 
 // setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--homotopyApproach=global --noTearingForComponent=4"); getErrorString();
 // setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents"); getErrorString();
-// simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
-simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0, simflags=sflags); getErrorString();
-// simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0); getErrorString();
-res := OpenModelica.Scripting.readSimulationResult("initializationTests.homotopy4_res.mat", {time, x,y,z,a,b,c,d,e,x1,y1,z1,x2,y2,z2,x3,y3,z3,f}, 2); getErrorString();
+// simulate(initializationTests.homotopy6, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
+simulate(initializationTests.homotopy6, startTime=0.0, stopTime=0.0, simflags=sflags); getErrorString();
+// simulate(initializationTests.homotopy6, startTime=0.0, stopTime=0.0); getErrorString();
+res := OpenModelica.Scripting.readSimulationResult("initializationTests.homotopy6_res.mat", {time, x,y,z,a,b,c,d,e,x1,y1,z1,x2,y2,z2,x3,y3,z3,f}, 2); getErrorString();
 
 print("x=");
 val(x, 0.0);
