@@ -15,8 +15,10 @@ package initializationTests
     Real y; // -3
 
   equation
-    homotopy(x^2, x) = 9;
-    homotopy(y^2, -y) = 9;
+    homotopy(x^2 - 9, x-9) = 0;
+    homotopy(y^2 - 9, -y-9) = 0;     // works (continuously differentiable homotopy path)
+    // homotopy(-y^2 + 9, y+9) = 0;  // works (continuously differentiable homotopy path)
+    // homotopy(y^2 - 9, y+9) = 0;      // does not work (homotopy path is not continuously differentiable)
   end homotopy1;
 end initializationTests;
 "); getErrorString();
