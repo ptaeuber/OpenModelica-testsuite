@@ -16,6 +16,7 @@ package initializationTests
     
   equation
     a = sin(p1* time + 1);
+    // a = sin(p1* time + 3.1415/2);
     
     x + 5 = z + a;
     -y + 10 = z + p1;
@@ -48,27 +49,18 @@ package initializationTests
 end initializationTests;
 "); getErrorString();
 
-// double homAdaptBend = 0.05;
-// double homHEps = 1e-3;
-// int homMaxLambdaSteps = 0;
-// int homMaxNewtonSteps = 20;
-// int homMaxTries = 10;
-// double homTauDecFac = 10.0;
-// double homTauDecFacPredictor = 2.0;
-// double homTauIncFac = 2.0;
-// double homTauIncThreshold = 10.0;
-// double homTauMax = 10.0;
-// double homTauMin = 1e-4;
-// double homTauStart = 0.2;
-sflags:="-homotopyOnFirstTry -homAdaptBend=0.05 -homHEps=1e-3 -homMaxLambdaSteps=0 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
+sflags:="-homotopyOnFirstTry -homAdaptBend=0.5 -homHEps=1e-5 -homMaxLambdaSteps=0 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
 
-// setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--homotopyApproach=global --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents"); getErrorString();
-// simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=equidistantGlobal"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=equidistantGlobal --noTearingForComponent=4"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=adaptiveGlobal"); getErrorString();
+setCommandLineOptions("--homotopyApproach=adaptiveGlobal --noTearingForComponent=4"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=adaptiveGlobal --noTearingForComponent=4 -d=-NLSanalyticJacobian"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=eqidistantLocal"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=eqidistantLocal --noTearingForComponent=4"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=adaptiveLocal"); getErrorString();
+// setCommandLineOptions("--homotopyApproach=adaptiveLocal --noTearingForComponent=4"); getErrorString();
 simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0, simflags=sflags); getErrorString();
-// simulate(initializationTests.homotopy4, startTime=0.0, stopTime=0.0); getErrorString();
 res := OpenModelica.Scripting.readSimulationResult("initializationTests.homotopy4_res.mat", {time, x,y,z,a,b,c,d,e,x1,y1,z1,x2,y2,z2,x3,y3,z3,f}, 2); getErrorString();
 
 print("x=");
