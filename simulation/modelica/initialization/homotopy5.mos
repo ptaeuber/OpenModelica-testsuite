@@ -21,31 +21,37 @@ package initializationTests
 end initializationTests;
 "); getErrorString();
 
-// double homAdaptBend = 0.05;
-// double homHEps = 1e-3;
-// int homMaxLambdaSteps = 0;
-// int homMaxNewtonSteps = 20;
-// int homMaxTries = 10;
-// double homTauDecFac = 10.0;
-// double homTauDecFacPredictor = 2.0;
-// double homTauIncFac = 2.0;
-// double homTauIncThreshold = 10.0;
-// double homTauMax = 10.0;
-// double homTauMin = 1e-4;
-// double homTauStart = 0.2;
-sflags:="-homotopyOnFirstTry -homAdaptBend=0.5 -homHEps=1e-3 -homMaxLambdaSteps=0 -homMaxNewtonSteps=20 -homMaxTries=10 -homTauDecFac=10.0 -homTauDecFacPredictor=2.0 -homTauIncFac=2.0 -homTauIncThreshold=10.0 -homTauMax=10.0 -homTauMin=1e-4 -homTauStart=0.2";
+sflags:="-homotopyOnFirstTry";
 
-// setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--homotopyApproach=global --initOptModules+=generateHomotopyComponents --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--homotopyApproach=global --noTearingForComponent=4"); getErrorString();
-// setCommandLineOptions("--initOptModules+=inlineHomotopy --homotopyApproach=global --initOptModules+=generateHomotopyComponents"); getErrorString();
-// simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0, simflags="-homotopyOnFirstTry"); getErrorString();
+setCommandLineOptions("--homotopyApproach=adaptiveLocal"); getErrorString();
 simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0, simflags=sflags); getErrorString();
-// simulate(initializationTests.homotopy5, startTime=0.0, stopTime=0.0); getErrorString();
 res := OpenModelica.Scripting.readSimulationResult("initializationTests.homotopy5_res.mat", {time, x}, 2); getErrorString();
 
 print("x=");
 val(x, 0.0);
 
+print("y=");
+val(x, 0.0);
+
 // Result:
+// true
+// ""
+// "-homotopyOnFirstTry"
+// true
+// ""
+// record SimulationResult
+//     resultFile = "initializationTests.homotopy5_res.mat",
+//     simulationOptions = "startTime = 0.0, stopTime = 0.0, numberOfIntervals = 500, tolerance = 1e-06, method = 'dassl', fileNamePrefix = 'initializationTests.homotopy5', options = '', outputFormat = 'mat', variableFilter = '.*', cflags = '', simflags = '-homotopyOnFirstTry'",
+//     messages = "LOG_SUCCESS       | info    | The initialization finished successfully with 28 homotopy steps.
+// LOG_SUCCESS       | info    | The simulation finished successfully.
+// "
+// end SimulationResult;
+// "Warning: There are iteration variables with default zero start attribute. For more information set -d=initialization. In OMEdit Tools->Options->Simulation->OMCFlags, in OMNotebook call setCommandLineOptions("-d=initialization").
+// "
+// {{0.0,0.0},{2.000044743976706,2.000044743976706}}
+// ""
+// x=
+// 2.000044743976706
+// y=
+// 2.000044743976706
 // endResult
